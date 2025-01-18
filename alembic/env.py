@@ -8,14 +8,10 @@ from sqlalchemy import pool
 
 from alembic import context
 
-from dotenv import load_dotenv
-
 from src.app.infrastructure.db import (  # noqa
     metadata,
     SaAuthorTable, SaBookTable, SaGenreTable
 )
-
-load_dotenv()
 
 DATABASE_URL = os.getenv('DATABASE_URL')
 if not DATABASE_URL:
@@ -82,6 +78,7 @@ def run_migrations_offline() -> None:
         target_metadata=target_metadata,
         literal_binds=True,
         dialect_opts={"paramstyle": "named"},
+        process_revision_directives=process_revision_directives,
     )
 
     with context.begin_transaction():
@@ -103,7 +100,8 @@ def run_migrations_online() -> None:
 
     with connectable.connect() as connection:
         context.configure(
-            connection=connection, target_metadata=target_metadata
+            connection=connection, target_metadata=target_metadata,
+            process_revision_directives=process_revision_directives,
         )
 
         with context.begin_transaction():

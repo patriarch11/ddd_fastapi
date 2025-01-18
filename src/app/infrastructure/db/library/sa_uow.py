@@ -2,10 +2,12 @@ from typing import Self
 
 from sqlalchemy.orm import sessionmaker, Session
 
+from src.shared.di import inject
 from src.shared.library import AbstractUnitOfWork
 
 
 class SaAbstractUnitOfWork(AbstractUnitOfWork):
+    @inject
     def __init__(
             self,
             session_factory: sessionmaker) -> None:
