@@ -12,12 +12,11 @@ from src.app.infrastructure.db import register_mappers
 
 @contextmanager
 def lifespan(_app: FastAPI) -> Generator:
-    # register_mappers()
+    register_mappers()
     yield
     clear_mappers()
 
 
-register_mappers()
 app = FastAPI()
 app.include_router(author_handlers.router)
 app.include_router(book_handlers.router)
